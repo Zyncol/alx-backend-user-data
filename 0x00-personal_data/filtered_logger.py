@@ -44,5 +44,5 @@ class RedactingFormatter(logging.Formatter):
         fpoiofhewho
         """
         msg = super(RedactingFormatter, self).format(record)
-        uthenga = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
-        return uthenga
+        uthen = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
+        return uthen
