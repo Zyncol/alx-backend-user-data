@@ -26,6 +26,19 @@ def filter_datum(
     return re.sub(extract(fields, separator), replace(redaction), message)
 
 
+def get_logger() -> logging.Logger:
+    """
+    Creating a new logger for user data.
+    """
+    logger = logging.getLogger("user_data")
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    logger.addHandler(stream_handler)
+    return logger
+
+
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Creating a connector to database.
@@ -101,3 +114,7 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         uthen = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
         return uthen
+
+
+if __name__ == "__main__":
+    main()
